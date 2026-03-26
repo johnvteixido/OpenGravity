@@ -1,11 +1,4 @@
-import {
-  app,
-  BrowserWindow,
-  ipcMain,
-  shell,
-  dialog,
-  nativeTheme,
-} from 'electron';
+import { app, BrowserWindow, ipcMain, shell, dialog, nativeTheme } from 'electron';
 import path from 'path';
 import { spawn, ChildProcess } from 'child_process';
 import { autoUpdater } from 'electron-updater';
@@ -46,7 +39,7 @@ function startAgentServer(): Promise<void> {
           OG_CONFIG_DIR: CONFIG_DIR,
           OG_PORT: String(AGENT_PORT),
         },
-      }
+      },
     );
 
     agentProcess.stdout?.on('data', (data) => {
@@ -81,9 +74,9 @@ function createWindow() {
     backgroundColor: nativeTheme.shouldUseDarkColors ? '#0d1117' : '#ffffff',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      contextIsolation: true,      // Security: renderer isolated from Node
-      nodeIntegration: false,       // Security: no Node in renderer
-      sandbox: true,                // Security: OS-level sandbox
+      contextIsolation: true, // Security: renderer isolated from Node
+      nodeIntegration: false, // Security: no Node in renderer
+      sandbox: true, // Security: OS-level sandbox
       webSecurity: true,
       allowRunningInsecureContent: false,
     },
@@ -98,11 +91,11 @@ function createWindow() {
         ...details.responseHeaders,
         'Content-Security-Policy': [
           `default-src 'self'; ` +
-          `script-src 'self'; ` +
-          `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; ` +
-          `font-src 'self' https://fonts.gstatic.com; ` +
-          `connect-src 'self' ws://127.0.0.1:${AGENT_PORT} http://127.0.0.1:${AGENT_PORT}; ` +
-          `img-src 'self' data: blob:`,
+            `script-src 'self'; ` +
+            `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; ` +
+            `font-src 'self' https://fonts.gstatic.com; ` +
+            `connect-src 'self' ws://127.0.0.1:${AGENT_PORT} http://127.0.0.1:${AGENT_PORT}; ` +
+            `img-src 'self' data: blob:`,
         ],
       },
     });
@@ -156,7 +149,9 @@ ipcMain.handle('shell:openPath', async (_event, filePath: string) => {
 // Check Ollama status
 ipcMain.handle('ollama:check', async () => {
   try {
-    const res = await fetch('http://127.0.0.1:11434/api/tags', { signal: AbortSignal.timeout(3000) });
+    const res = await fetch('http://127.0.0.1:11434/api/tags', {
+      signal: AbortSignal.timeout(3000),
+    });
     return { running: res.ok };
   } catch {
     return { running: false };

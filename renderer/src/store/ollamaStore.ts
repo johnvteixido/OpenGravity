@@ -30,6 +30,6 @@ export const useOllamaStore = create<OllamaState>()(
       availableModels: [],
       setAvailableModels: (models) => set({ availableModels: models }),
     }),
-    { name: 'opengravity-ollama', partialize: (s) => ({ selectedModel: s.selectedModel }) }
-  )
+    { name: 'opengravity-ollama', partialize: (s) => ({ selectedModel: s.selectedModel }) },
+  ),
 );

@@ -2,7 +2,12 @@ import { useState } from 'react';
 import { useOllamaStore } from '../store/ollamaStore';
 
 const RECOMMENDED_MODELS = [
-  'llama3.2', 'qwen2.5-coder', 'deepseek-r1:7b', 'mistral', 'codellama', 'phi3',
+  'llama3.2',
+  'qwen2.5-coder',
+  'deepseek-r1:7b',
+  'mistral',
+  'codellama',
+  'phi3',
 ];
 
 export default function SettingsPanel() {
@@ -12,8 +17,8 @@ export default function SettingsPanel() {
   const [saved, setSaved] = useState(false);
 
   const allModels = [
-    ...availableModels.map(m => m.name),
-    ...RECOMMENDED_MODELS.filter(m => !availableModels.find(am => am.name === m)),
+    ...availableModels.map((m) => m.name),
+    ...RECOMMENDED_MODELS.filter((m) => !availableModels.find((am) => am.name === m)),
   ];
 
   function handleSave() {
@@ -35,10 +40,12 @@ export default function SettingsPanel() {
             <select
               className="settings-input"
               value={selectedModel}
-              onChange={e => setSelectedModel(e.target.value)}
+              onChange={(e) => setSelectedModel(e.target.value)}
             >
-              {allModels.map(m => (
-                <option key={m} value={m}>{m}</option>
+              {allModels.map((m) => (
+                <option key={m} value={m}>
+                  {m}
+                </option>
               ))}
             </select>
             <span className="settings-hint">Models are run locally via Ollama.</span>
@@ -51,11 +58,16 @@ export default function SettingsPanel() {
                 style={{ flex: 1 }}
                 placeholder="e.g. llama3.2:70b"
                 value={customModel}
-                onChange={e => setCustomModel(e.target.value)}
+                onChange={(e) => setCustomModel(e.target.value)}
               />
               <button
                 className="btn btn-ghost"
-                onClick={() => { if (customModel) { setSelectedModel(customModel); setCustomModel(''); } }}
+                onClick={() => {
+                  if (customModel) {
+                    setSelectedModel(customModel);
+                    setCustomModel('');
+                  }
+                }}
               >
                 Use
               </button>
@@ -71,30 +83,35 @@ export default function SettingsPanel() {
             <input
               className="settings-input"
               value={ollamaUrl}
-              onChange={e => setOllamaUrl(e.target.value)}
+              onChange={(e) => setOllamaUrl(e.target.value)}
             />
-            <span className="settings-hint">Default: http://127.0.0.1:11434 — change only if using a remote Ollama instance.</span>
+            <span className="settings-hint">
+              Default: http://127.0.0.1:11434 — change only if using a remote Ollama instance.
+            </span>
           </div>
         </div>
 
         {/* Security */}
         <div className="settings-section">
           <h2>🛡️ Security</h2>
-          <div style={{
-            background: 'var(--bg-elevated)',
-            border: '1px solid var(--border)',
-            borderRadius: 'var(--radius-md)',
-            padding: '14px 16px',
-            fontSize: 13,
-            color: 'var(--text-secondary)',
-            lineHeight: 1.7,
-          }}>
+          <div
+            style={{
+              background: 'var(--bg-elevated)',
+              border: '1px solid var(--border)',
+              borderRadius: 'var(--radius-md)',
+              padding: '14px 16px',
+              fontSize: 13,
+              color: 'var(--text-secondary)',
+              lineHeight: 1.7,
+            }}
+          >
             <p style={{ marginBottom: 8 }}>
-              OpenGravity runs all AI inference locally. Your code and conversations never leave this machine.
+              OpenGravity runs all AI inference locally. Your code and conversations never leave
+              this machine.
             </p>
             <p style={{ marginBottom: 8 }}>
-              Agent sandbox policy controls what files and network hosts the agent can access.
-              Edit <code>~/.opengravity/policy.json</code> to configure.
+              Agent sandbox policy controls what files and network hosts the agent can access. Edit{' '}
+              <code>~/.opengravity/policy.json</code> to configure.
             </p>
             <p style={{ margin: 0 }}>
               Audit log: <code>~/.opengravity/audit.jsonl</code>
@@ -105,17 +122,25 @@ export default function SettingsPanel() {
         {/* About */}
         <div className="settings-section">
           <h2>ℹ️ About</h2>
-          <div style={{
-            background: 'var(--bg-elevated)',
-            border: '1px solid var(--border)',
-            borderRadius: 'var(--radius-md)',
-            padding: '14px 16px',
-            fontSize: 13,
-            color: 'var(--text-secondary)',
-          }}>
-            <p><strong style={{ color: 'var(--text-primary)' }}>OpenGravity</strong> v0.1.0</p>
+          <div
+            style={{
+              background: 'var(--bg-elevated)',
+              border: '1px solid var(--border)',
+              borderRadius: 'var(--radius-md)',
+              padding: '14px 16px',
+              fontSize: 13,
+              color: 'var(--text-secondary)',
+            }}
+          >
+            <p>
+              <strong style={{ color: 'var(--text-primary)' }}>OpenGravity</strong> v0.1.0
+            </p>
             <p>Apache-2.0 License</p>
-            <p><a href="https://github.com/johnvteixido/OpenGravity">github.com/johnvteixido/OpenGravity</a></p>
+            <p>
+              <a href="https://github.com/johnvteixido/OpenGravity">
+                github.com/johnvteixido/OpenGravity
+              </a>
+            </p>
           </div>
         </div>
 

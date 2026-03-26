@@ -46,6 +46,9 @@ export const useAgentStore = create<AgentState>()(
       isAgentRunning: false,
       setAgentRunning: (running) => set({ isAgentRunning: running }),
     }),
-    { name: 'opengravity-agent', partialize: (s) => ({ messages: s.messages, workspace: s.workspace }) }
-  )
+    {
+      name: 'opengravity-agent',
+      partialize: (s) => ({ messages: s.messages, workspace: s.workspace }),
+    },
+  ),
 );

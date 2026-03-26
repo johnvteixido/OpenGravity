@@ -27,7 +27,9 @@ export default function ArtifactsPanel({ agentUrl }: Props) {
           const data = await res.json();
           setArtifacts(data.artifacts ?? []);
         }
-      } catch { /* agent not running */ }
+      } catch {
+        /* agent not running */
+      }
     }
     fetchArtifacts();
     const interval = setInterval(fetchArtifacts, 5000);
@@ -60,8 +62,14 @@ export default function ArtifactsPanel({ agentUrl }: Props) {
       <div className="topbar">
         <span className="topbar-title">Artifacts</span>
         {selected && (
-          <button className="btn btn-ghost" style={{ fontSize: 12, padding: '4px 10px' }}
-            onClick={() => { setSelected(null); setContent(''); }}>
+          <button
+            className="btn btn-ghost"
+            style={{ fontSize: 12, padding: '4px 10px' }}
+            onClick={() => {
+              setSelected(null);
+              setContent('');
+            }}
+          >
             ← Back
           </button>
         )}
@@ -72,16 +80,29 @@ export default function ArtifactsPanel({ agentUrl }: Props) {
           {artifacts.length === 0 && (
             <div style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '40px 20px' }}>
               <div style={{ fontSize: 36, marginBottom: 12 }}>📦</div>
-              <div style={{ fontWeight: 600, fontSize: 14, marginBottom: 8, color: 'var(--text-secondary)' }}>No artifacts yet</div>
-              <div style={{ fontSize: 13 }}>Artifacts are generated as the agent works — task lists, plans, walkthroughs.</div>
+              <div
+                style={{
+                  fontWeight: 600,
+                  fontSize: 14,
+                  marginBottom: 8,
+                  color: 'var(--text-secondary)',
+                }}
+              >
+                No artifacts yet
+              </div>
+              <div style={{ fontSize: 13 }}>
+                Artifacts are generated as the agent works — task lists, plans, walkthroughs.
+              </div>
             </div>
           )}
-          {artifacts.map(a => (
+          {artifacts.map((a) => (
             <div
               key={a.name}
               onClick={() => openArtifact(a)}
               style={{
-                display: 'flex', alignItems: 'flex-start', gap: 12,
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: 12,
                 padding: '14px 16px',
                 background: 'var(--bg-surface)',
                 border: '1px solid var(--border)',
@@ -90,8 +111,8 @@ export default function ArtifactsPanel({ agentUrl }: Props) {
                 cursor: 'pointer',
                 transition: 'border-color 150ms ease, transform 150ms ease',
               }}
-              onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--accent)')}
-              onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}
+              onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'var(--accent)')}
+              onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'var(--border)')}
             >
               <span style={{ fontSize: 20 }}>{typeIcon(a.type)}</span>
               <div style={{ flex: 1, minWidth: 0 }}>
@@ -99,9 +120,17 @@ export default function ArtifactsPanel({ agentUrl }: Props) {
                 <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 6 }}>
                   {new Date(a.modified).toLocaleString()} · {Math.round(a.size / 1024) || 1}KB
                 </div>
-                <div style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.5,
-                  overflow: 'hidden', display: '-webkit-box',
-                  WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                <div
+                  style={{
+                    fontSize: 12,
+                    color: 'var(--text-secondary)',
+                    lineHeight: 1.5,
+                    overflow: 'hidden',
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                  }}
+                >
                   {a.preview}
                 </div>
               </div>
@@ -124,7 +153,14 @@ export default function ArtifactsPanel({ agentUrl }: Props) {
               <div className="spinner" />
             </div>
           ) : (
-            <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word', fontSize: 13, lineHeight: 1.7 }}>
+            <pre
+              style={{
+                whiteSpace: 'pre-wrap',
+                wordBreak: 'break-word',
+                fontSize: 13,
+                lineHeight: 1.7,
+              }}
+            >
               {content}
             </pre>
           )}

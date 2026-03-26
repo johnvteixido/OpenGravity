@@ -13,6 +13,7 @@ By participating in this project, you agree to abide by our [Code of Conduct](CO
 Before filing a bug report, please check [existing issues](https://github.com/johnvteixido/OpenGravity/issues) to avoid duplicates.
 
 When filing a bug, include:
+
 - OpenGravity version and platform (Windows/macOS/Linux)
 - Ollama version and model used
 - Steps to reproduce
@@ -97,6 +98,7 @@ opengravity/
 ## Security Contributions
 
 Security-relevant changes require extra care. Please read [SECURITY.md](SECURITY.md) before contributing to:
+
 - `core/security/` — Sandbox and policy engine
 - `app/main.ts` — Electron main process and IPC
 - `app/preload.ts` — Context bridge

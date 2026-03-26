@@ -9,7 +9,11 @@ type Step = 'detect' | 'install' | 'model' | 'done';
 
 const RECOMMENDED_MODELS = [
   { id: 'llama3.2', label: 'Llama 3.2 (3B)', desc: 'Fast, great for most tasks. 2 GB.' },
-  { id: 'qwen2.5-coder', label: 'Qwen 2.5 Coder (7B)', desc: 'Excellent for coding tasks. 4.7 GB.' },
+  {
+    id: 'qwen2.5-coder',
+    label: 'Qwen 2.5 Coder (7B)',
+    desc: 'Excellent for coding tasks. 4.7 GB.',
+  },
   { id: 'deepseek-r1:7b', label: 'DeepSeek R1 (7B)', desc: 'Strong reasoning. 4.7 GB.' },
   { id: 'mistral', label: 'Mistral (7B)', desc: 'Fast and capable general model. 4.1 GB.' },
 ];
@@ -56,7 +60,7 @@ export default function OllamaWizard({ onComplete }: Props) {
       const res = await fetch('http://127.0.0.1:7432/setup/install-ollama', { method: 'POST' });
       if (res.ok) {
         // Wait a moment and re-check
-        await new Promise(r => setTimeout(r, 5000));
+        await new Promise((r) => setTimeout(r, 5000));
         const check = await fetch('http://127.0.0.1:11434/api/tags');
         if (check.ok) setStep('model');
       }
@@ -84,9 +88,14 @@ export default function OllamaWizard({ onComplete }: Props) {
         for (const line of lines) {
           try {
             const obj = JSON.parse(line);
-            if (obj.status) setPullProgress(obj.status + (obj.completed ? ` (${Math.round(obj.completed / 1e6)}MB)` : ''));
+            if (obj.status)
+              setPullProgress(
+                obj.status + (obj.completed ? ` (${Math.round(obj.completed / 1e6)}MB)` : ''),
+              );
             if (obj.status === 'success') setStep('done');
-          } catch { /* ignore */ }
+          } catch {
+            /* ignore */
+          }
         }
       }
     } finally {
@@ -99,13 +108,20 @@ export default function OllamaWizard({ onComplete }: Props) {
       <div className="wizard-card">
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
-          <div style={{
-            width: 48, height: 48,
-            background: 'linear-gradient(135deg, #7c3aed, #3b82f6)',
-            borderRadius: 14,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 24,
-          }}>⚡</div>
+          <div
+            style={{
+              width: 48,
+              height: 48,
+              background: 'linear-gradient(135deg, #7c3aed, #3b82f6)',
+              borderRadius: 14,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: 24,
+            }}
+          >
+            ⚡
+          </div>
           <div>
             <h2 style={{ marginBottom: 0 }}>Welcome to OpenGravity</h2>
             <p style={{ margin: 0, fontSize: 13 }}>Let's get your AI agent ready.</p>
@@ -114,7 +130,14 @@ export default function OllamaWizard({ onComplete }: Props) {
 
         {/* Step: detecting */}
         {checking && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, color: 'var(--text-secondary)' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              color: 'var(--text-secondary)',
+            }}
+          >
             <div className="spinner" />
             <span>Detecting Ollama…</span>
           </div>
@@ -123,30 +146,49 @@ export default function OllamaWizard({ onComplete }: Props) {
         {/* Step: install */}
         {!checking && step === 'install' && (
           <div>
-            <p>Ollama was not found on your system. OpenGravity uses Ollama to run AI models locally.</p>
-            <div style={{
-              background: 'var(--bg-elevated)',
-              border: '1px solid var(--border)',
-              borderRadius: 'var(--radius-md)',
-              padding: '14px 16px',
-              marginBottom: 20,
-              fontSize: 13,
-              color: 'var(--text-secondary)',
-            }}>
-              <strong style={{ color: 'var(--text-primary)' }}>What is Ollama?</strong><br />
-              Ollama is a free, open-source tool that runs large language models on your own computer.
-              All AI inference stays on-device — no data sent to the cloud.
+            <p>
+              Ollama was not found on your system. OpenGravity uses Ollama to run AI models locally.
+            </p>
+            <div
+              style={{
+                background: 'var(--bg-elevated)',
+                border: '1px solid var(--border)',
+                borderRadius: 'var(--radius-md)',
+                padding: '14px 16px',
+                marginBottom: 20,
+                fontSize: 13,
+                color: 'var(--text-secondary)',
+              }}
+            >
+              <strong style={{ color: 'var(--text-primary)' }}>What is Ollama?</strong>
+              <br />
+              Ollama is a free, open-source tool that runs large language models on your own
+              computer. All AI inference stays on-device — no data sent to the cloud.
             </div>
             <div style={{ display: 'flex', gap: 10 }}>
-              <button className="btn btn-primary" onClick={handleInstallOllama} disabled={installing} style={{ flex: 1 }}>
-                {installing ? <><div className="spinner" style={{ width: 14, height: 14 }} /> Installing…</> : '⬇ Install Ollama Automatically'}
+              <button
+                className="btn btn-primary"
+                onClick={handleInstallOllama}
+                disabled={installing}
+                style={{ flex: 1 }}
+              >
+                {installing ? (
+                  <>
+                    <div className="spinner" style={{ width: 14, height: 14 }} /> Installing…
+                  </>
+                ) : (
+                  '⬇ Install Ollama Automatically'
+                )}
               </button>
               <a
                 href="https://ollama.com/download"
                 className="btn btn-ghost"
                 target="_blank"
                 rel="noopener"
-                onClick={e => { e.preventDefault(); window.electronAPI?.openPath('https://ollama.com/download'); }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.electronAPI?.openPath('https://ollama.com/download');
+                }}
               >
                 Manual
               </a>
@@ -159,29 +201,47 @@ export default function OllamaWizard({ onComplete }: Props) {
           <div>
             <p>Ollama is ready! Choose your first AI model to download:</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
-              {RECOMMENDED_MODELS.map(m => (
+              {RECOMMENDED_MODELS.map((m) => (
                 <div
                   key={m.id}
                   onClick={() => setSelectedModel(m.id)}
                   style={{
                     padding: '12px 14px',
-                    background: selectedModel === m.id ? 'var(--accent-glow)' : 'var(--bg-elevated)',
+                    background:
+                      selectedModel === m.id ? 'var(--accent-glow)' : 'var(--bg-elevated)',
                     border: `1px solid ${selectedModel === m.id ? 'rgba(124,58,237,0.5)' : 'var(--border)'}`,
                     borderRadius: 'var(--radius-md)',
                     cursor: 'pointer',
                     transition: 'all 150ms ease',
                   }}
                 >
-                  <div style={{ fontWeight: 600, fontSize: 14, color: 'var(--text-primary)' }}>{m.label}</div>
-                  <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 2 }}>{m.desc}</div>
+                  <div style={{ fontWeight: 600, fontSize: 14, color: 'var(--text-primary)' }}>
+                    {m.label}
+                  </div>
+                  <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 2 }}>
+                    {m.desc}
+                  </div>
                 </div>
               ))}
             </div>
             {pullProgress && (
-              <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 12 }}>{pullProgress}</div>
+              <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 12 }}>
+                {pullProgress}
+              </div>
             )}
-            <button className="btn btn-primary" onClick={handlePullModel} disabled={pulling} style={{ width: '100%' }}>
-              {pulling ? <><div className="spinner" style={{ width: 14, height: 14 }} /> Downloading…</> : `⬇ Download ${selectedModel}`}
+            <button
+              className="btn btn-primary"
+              onClick={handlePullModel}
+              disabled={pulling}
+              style={{ width: '100%' }}
+            >
+              {pulling ? (
+                <>
+                  <div className="spinner" style={{ width: 14, height: 14 }} /> Downloading…
+                </>
+              ) : (
+                `⬇ Download ${selectedModel}`
+              )}
             </button>
           </div>
         )}
@@ -195,7 +255,11 @@ export default function OllamaWizard({ onComplete }: Props) {
               Ollama is running with <strong>{selectedModel}</strong>.<br />
               Your AI agent is ready to work.
             </p>
-            <button className="btn btn-primary" onClick={onComplete} style={{ width: '100%', padding: '12px' }}>
+            <button
+              className="btn btn-primary"
+              onClick={onComplete}
+              style={{ width: '100%', padding: '12px' }}
+            >
               Open OpenGravity →
             </button>
           </div>

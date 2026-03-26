@@ -42,15 +42,26 @@ export default function App() {
   return (
     <div className="app-shell">
       {/* Ollama setup wizard (modal) */}
-      {showWizard && <OllamaWizard onComplete={() => { setOllamaReady(true); setShowWizard(false); }} />}
+      {showWizard && (
+        <OllamaWizard
+          onComplete={() => {
+            setOllamaReady(true);
+            setShowWizard(false);
+          }}
+        />
+      )}
 
       {/* Left sidebar */}
-      <Sidebar activeView={view} onNavigate={setView} onToggleTaskPanel={() => setShowTaskPanel(p => !p)} />
+      <Sidebar
+        activeView={view}
+        onNavigate={setView}
+        onToggleTaskPanel={() => setShowTaskPanel((p) => !p)}
+      />
 
       {/* Main content */}
       <div className="main-panel">
-        {view === 'chat'      && <ChatPanel ollamaReady={ollamaReady} agentUrl={agentUrl} />}
-        {view === 'settings'  && <SettingsPanel />}
+        {view === 'chat' && <ChatPanel ollamaReady={ollamaReady} agentUrl={agentUrl} />}
+        {view === 'settings' && <SettingsPanel />}
         {view === 'artifacts' && <ArtifactsPanel agentUrl={agentUrl} />}
       </div>
 

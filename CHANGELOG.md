@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
 - Initial project scaffold and monorepo structure
 - Electron standalone desktop application (Windows, Linux, macOS)
 - React renderer with Chat, Task View, Artifact Viewer, and Settings panels

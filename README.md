@@ -11,6 +11,7 @@
 </p>
 
 ## About
+
 **Description:** Agent-first AI development, local and free. A standalone commercial-grade alternative to Google Antigravity.
 **Topics:** `ai`, `electron`, `react`, `ollama`, `local-ai`, `agent`, `developer-tools`, `open-source`
 
@@ -43,12 +44,12 @@
 
 Download the latest release for your platform from the [Releases page](https://github.com/johnvteixido/OpenGravity/releases):
 
-| Platform | Package |
-|---|---|
-| Windows | `OpenGravity-Setup-x.x.x.exe` |
+| Platform              | Package                       |
+| --------------------- | ----------------------------- |
+| Windows               | `OpenGravity-Setup-x.x.x.exe` |
 | macOS (Apple Silicon) | `OpenGravity-x.x.x-arm64.dmg` |
-| macOS (Intel) | `OpenGravity-x.x.x-x64.dmg` |
-| Linux | `OpenGravity-x.x.x.AppImage` |
+| macOS (Intel)         | `OpenGravity-x.x.x-x64.dmg`   |
+| Linux                 | `OpenGravity-x.x.x.AppImage`  |
 
 ### First Launch
 
@@ -110,12 +111,12 @@ See [Security Policy](SECURITY.md) and [Security Docs](docs/security.md) for det
 
 After first launch, configuration lives at:
 
-| Path | Purpose |
-|---|---|
-| `~/.opengravity/config.json` | Model, provider, UI preferences |
-| `~/.opengravity/credentials.json` | Provider credentials (never shared) |
-| `~/.opengravity/policy.json` | Sandbox policy (filesystem, network, shell) |
-| `~/.opengravity/audit.jsonl` | Append-only audit log |
+| Path                              | Purpose                                     |
+| --------------------------------- | ------------------------------------------- |
+| `~/.opengravity/config.json`      | Model, provider, UI preferences             |
+| `~/.opengravity/credentials.json` | Provider credentials (never shared)         |
+| `~/.opengravity/policy.json`      | Sandbox policy (filesystem, network, shell) |
+| `~/.opengravity/audit.jsonl`      | Append-only audit log                       |
 
 You can edit these via **Settings → Advanced** in the app, or manually.
 
@@ -133,13 +134,13 @@ We love contributions! Please read [CONTRIBUTING.md](CONTRIBUTING.md) before ope
 
 ## 📚 Documentation
 
-| Doc | Description |
-|---|---|
-| [Overview](docs/overview.md) | What OpenGravity is and how it fits together |
-| [Quick Start](docs/quick-start.md) | Detailed setup guide |
-| [Architecture](docs/architecture.md) | Component diagram and data flow |
-| [Providers](docs/providers.md) | Configuring Ollama and other providers |
-| [Security](docs/security.md) | Sandbox design and policy configuration |
+| Doc                                  | Description                                  |
+| ------------------------------------ | -------------------------------------------- |
+| [Overview](docs/overview.md)         | What OpenGravity is and how it fits together |
+| [Quick Start](docs/quick-start.md)   | Detailed setup guide                         |
+| [Architecture](docs/architecture.md) | Component diagram and data flow              |
+| [Providers](docs/providers.md)       | Configuring Ollama and other providers       |
+| [Security](docs/security.md)         | Sandbox design and policy configuration      |
 
 ---
 
