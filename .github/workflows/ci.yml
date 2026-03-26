@@ -32,7 +32,7 @@ jobs:
       - name: Install core dependencies
         run: |
           cd core
-          pip install -e ".[dev]"
+          pip install ".[dev]"
       - name: Lint with Ruff
         run: cd core && ruff check .
       - name: Run tests
@@ -55,4 +55,4 @@ jobs:
       - name: pip-audit
         run: |
           pip install pip-audit
-          cd core && pip-audit -r <(pip install -e . --dry-run 2>&1 | grep "^Requirement" | sed 's/Requirement already satisfied: //;s/ .*//') || true
+          cd core && pip-audit -r <(pip install . --dry-run 2>&1 | grep "^Requirement" | sed 's/Requirement already satisfied: //;s/ .*//') || true
