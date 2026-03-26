@@ -6,7 +6,7 @@
 
 If you discover a security vulnerability in OpenGravity, please disclose it responsibly:
 
-- **Email:** security@opengravity.dev _(monitored by maintainers)_
+- **Email:** johnvteixido@gmail.com _(monitored by maintainers)_
 - **GitHub Private Advisory:** [Report a vulnerability](https://github.com/johnvteixido/OpenGravity/security/advisories/new)
 
 Please include:
