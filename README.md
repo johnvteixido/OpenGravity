@@ -29,6 +29,10 @@
 - 🖥️ **Standalone App** — Native desktop app for Windows, Linux, and macOS
 - 🧠 **Multi-Agent Orchestration** — Parallel agents for complex workflows
 - ⚡ **Ollama Auto-Setup** — Guided installer if Ollama isn't detected
+- 🦞 **NemoClaw & OpenClaw Integration** — Seamlessly connect with NVIDIA NemoClaw and OpenClaw for massive-scale agent coordination and specialized workflow executions.
+- 👁️ **Multi-Modal Vision** — Agents can natively understand screen captures and image assets for UI-driven workflows.
+- 🔌 **Extensible Plugin API** — Easily write custom tools in Python or Node.js and hot-reload them without restarting the sandbox.
+- ☁️ **E2E Encrypted Sync** — Optionally sync your secure workspaces and memory states across devices.
 
 ---
 
@@ -146,7 +150,12 @@ We love contributions! Please read [CONTRIBUTING.md](CONTRIBUTING.md) before ope
 
 ## 📄 License
 
-This project is licensed under the [Apache License 2.0](LICENSE).
+This project is available under a dual-license model:
+
+- **Non-Commercial / Personal Use**: Free to use for personal, educational, or non-profit projects.
+- **Commercial Use**: If you make money, or intend to make money, using or building upon this repository, **you must purchase a Commercial License**.
+
+To inquire about purchasing a commercial license, please contact [johnvteixido@gmail.com](mailto:johnvteixido@gmail.com).
 
 ---
 
