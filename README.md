@@ -1,8 +1,7 @@
-# OpenGravity — Agent-First AI Development, Local and Free
-
-<p align="center">
-  <img src="assets/icon.png" width="128" height="128" alt="OpenGravity Logo"/>
-</p>
+<div align="center">
+  <img src="assets/icon.png" width="128" height="128" alt="OpenGravity Logo">
+  <h1>OpenGravity</h1>
+</div>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License: Apache 2.0"/></a>
@@ -11,7 +10,11 @@
   <a href="https://github.com/johnvteixido/OpenGravity/blob/main/SECURITY.md"><img src="https://img.shields.io/badge/Security-Policy-red.svg" alt="Security"/></a>
 </p>
 
-> **OpenGravity** is a free, local, open-source alternative to Google Antigravity. It brings agent-first AI development to your desktop — 100% offline, 100% private, powered by [Ollama](https://ollama.com) and your own hardware. No subscriptions. No cloud. No data leaving your machine.
+## About
+**Description:** Agent-first AI development, local and free. A standalone commercial-grade alternative to Google Antigravity.
+**Topics:** `ai`, `electron`, `react`, `ollama`, `local-ai`, `agent`, `developer-tools`, `open-source`
+
+> **OpenGravity** is a commercial-grade, fully local, open-source AI IDE that mirrors the agent-first philosophy of Google Antigravity—but runs 100% on your hardware. Zero data leaves your machine.
 
 ---
 
