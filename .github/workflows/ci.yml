@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-      - run: npm ci
+      - run: npm install
       - run: npm run build:renderer
       - run: npm run lint
       - run: npm run typecheck
@@ -32,6 +32,7 @@ jobs:
       - name: Install core dependencies
         run: |
           cd core
+          python -m pip install --upgrade pip setuptools wheel
           pip install ".[dev]"
       - name: Lint with Ruff
         run: cd core && ruff check .
@@ -46,7 +47,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - run: npm ci
+      - run: npm install
       - name: npm audit
         run: npm audit --audit-level=high
       - uses: actions/setup-python@v5

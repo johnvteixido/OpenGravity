@@ -35,7 +35,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install Node dependencies
-        run: npm ci
+        run: npm install
 
       - name: Build renderer + electron
         run: npm run build
