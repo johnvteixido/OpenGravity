@@ -130,7 +130,7 @@ async def list_artifacts() -> dict:
             artifact_type = "other"
             try:
                 async with aiofiles.open(path, encoding="utf-8") as f:
-                    first_line = await f.readline()
+                    _ = await f.readline()
                 if "task" in path.name.lower():
                     artifact_type = "task"
                 elif "plan" in path.name.lower():
