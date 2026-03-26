@@ -42,7 +42,7 @@
     "dist:linux": "npm run build && electron-builder --linux",
     "lint": "eslint . --ext .ts,.tsx && prettier --check .",
     "lint:fix": "eslint . --ext .ts,.tsx --fix && prettier --write .",
-    "test": "vitest run && cd core && python -m pytest tests/ -v",
+    "test": "cd core && python -m pytest tests/ -v",
     "test:renderer": "vitest run",
     "test:python": "cd core && python -m pytest tests/ -v",
     "typecheck": "tsc --noEmit"
@@ -64,6 +64,8 @@
     "electron": "^30.0.0",
     "electron-builder": "^24.13.0",
     "eslint": "^8.57.0",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.26",
     "prettier": "^3.3.0",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",

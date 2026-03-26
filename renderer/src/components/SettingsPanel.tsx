@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useOllamaStore } from '../store/ollamaStore';
 
 const RECOMMENDED_MODELS = [

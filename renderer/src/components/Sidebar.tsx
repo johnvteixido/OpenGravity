@@ -1,4 +1,3 @@
-import React from 'react';
 import { View } from '../App';
 import { useAgentStore } from '../store/agentStore';
 import { useOllamaStore } from '../store/ollamaStore';

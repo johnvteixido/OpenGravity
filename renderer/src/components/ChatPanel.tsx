@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { useAgentStore, Message } from '../store/agentStore';
 import { useOllamaStore } from '../store/ollamaStore';
 
@@ -16,7 +16,6 @@ const SUGGESTIONS = [
 
 function MessageBubble({ msg }: { msg: Message }) {
   const isUser = msg.role === 'user';
-  const initials = isUser ? 'You' : 'OG';
   const time = new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
   return (
