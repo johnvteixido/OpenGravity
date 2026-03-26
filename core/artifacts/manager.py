@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import aiofiles
@@ -26,7 +26,7 @@ class ArtifactManager:
         path = self.artifacts_dir / safe_name
         
         # We prepend a hidden metadata line so the React UI can parse its type
-        metadata = json.dumps({"type": artifact_type, "ts": datetime.now(timezone.utc).isoformat()})
+        metadata = json.dumps({"type": artifact_type, "ts": datetime.now(UTC).isoformat()})
         full_content = f"<!-- og_meta: {metadata} -->\n{content}"
         
         async with aiofiles.open(path, "w", encoding="utf-8") as f:

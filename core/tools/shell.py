@@ -41,7 +41,7 @@ class ShellTool:
             }
             await self.audit.log("tool.shell.result", {"returncode": proc.returncode})
             return result
-        except asyncio.TimeoutError:
+        except TimeoutError:
             return {"stdout": "", "stderr": f"Command timed out after {timeout}s", "returncode": -1}
         except Exception as e:
             return {"stdout": "", "stderr": str(e), "returncode": -1}

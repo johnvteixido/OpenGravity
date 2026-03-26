@@ -6,7 +6,7 @@ from pathlib import Path
 import aiofiles
 
 from ..security.audit import AuditLogger
-from ..security.policy import PolicyEngine, PolicyViolation
+from ..security.policy import PolicyEngine
 
 
 class FileSystemTool:

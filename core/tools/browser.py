@@ -1,8 +1,6 @@
 """Playwright browser tool for end-to-end testing and visual verification."""
 from __future__ import annotations
 
-import asyncio
-from pathlib import Path
 from typing import Any
 
 from playwright.async_api import async_playwright

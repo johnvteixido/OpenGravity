@@ -3,7 +3,6 @@ Agent Orchestrator — coordinates planning, execution, and verification.
 """
 from __future__ import annotations
 
-import asyncio
 import uuid
 from collections.abc import AsyncGenerator, Callable, Coroutine
 from pathlib import Path
@@ -12,8 +11,6 @@ from typing import Any
 from ..llm.adapter import OllamaAdapter
 from ..security.audit import AuditLogger
 from ..security.policy import PolicyEngine
-from ..tools.filesystem import FileSystemTool
-from ..tools.shell import ShellTool
 
 SYSTEM_PROMPT = """You are OpenGravity, a powerful local AI coding agent.
 

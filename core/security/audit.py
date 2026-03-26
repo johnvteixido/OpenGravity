@@ -7,7 +7,7 @@ from __future__ import annotations
 import asyncio
 import json
 import os
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 
@@ -28,7 +28,7 @@ class AuditLogger:
     async def log(self, event_type: str, data: dict) -> None:
         """Append an audit entry as a JSONL record."""
         entry = {
-            "ts": datetime.now(tz=timezone.utc).isoformat(),
+            "ts": datetime.now(tz=UTC).isoformat(),
             "type": event_type,
             **data,
         }

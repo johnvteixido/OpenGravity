@@ -2,11 +2,10 @@
 from __future__ import annotations
 
 import asyncio
-import os
 from pathlib import Path
 
 from ..security.audit import AuditLogger
-from ..security.policy import PolicyEngine, PolicyViolation
+from ..security.policy import PolicyEngine
 
 
 class CodebaseTool:

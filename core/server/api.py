@@ -15,10 +15,9 @@ from __future__ import annotations
 import asyncio
 import json
 import os
-import subprocess
 import sys
+from collections.abc import AsyncGenerator
 from pathlib import Path
-from typing import AsyncGenerator
 
 import aiofiles
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
@@ -192,7 +191,7 @@ async def install_ollama() -> dict:
         )
         stdout, stderr = await asyncio.wait_for(proc.communicate(), timeout=120)
         return {"success": proc.returncode == 0, "output": stdout.decode()[:2000]}
-    except asyncio.TimeoutError:
+    except TimeoutError:
         return {"success": False, "error": "Installer timed out"}
     except Exception as e:
         return {"success": False, "error": str(e)}

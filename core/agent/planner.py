@@ -1,8 +1,6 @@
 """Agent planner module for generating step-by-step implementation plans."""
 from __future__ import annotations
 
-import uuid
-
 from ..llm.adapter import OllamaAdapter
 from ..security.audit import AuditLogger
 
