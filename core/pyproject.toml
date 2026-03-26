@@ -6,8 +6,10 @@ build-backend = "setuptools.build_meta"
 name = "opengravity-core"
 version = "0.1.0"
 description = "OpenGravity agent engine — local AI coding agent powered by Ollama"
-readme = "README.md"
 license = { text = "Apache-2.0" }
+
+[tool.setuptools]
+packages = ["agent", "llm", "tools", "artifacts", "security", "server", "memory"]
 requires-python = ">=3.11"
 dependencies = [
     "fastapi>=0.111.0",
