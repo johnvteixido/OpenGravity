@@ -1,7 +1,7 @@
 # OpenGravity — Agent-First AI Development, Local and Free
 
 <p align="center">
-  <img src="docs/assets/banner.png" alt="OpenGravity Banner" width="100%"/>
+  <img src="assets/icon.png" width="128" height="128" alt="OpenGravity Logo"/>
 </p>
 
 <p align="center">
