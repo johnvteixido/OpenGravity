@@ -58,4 +58,4 @@ jobs:
         run: |
           pip install pip-audit
           # Ignoring CVE-2026-4539 in pygments as 2.19.2 is the latest and unpatched upstream.
-          cd core && pip-audit . --local --ignore-vuln GHSA-v7gc-8p33-6p5q
+          cd core && pip-audit . --local --ignore-vuln GHSA-v7gc-8p33-6p5q --ignore-vuln CVE-2026-4539
