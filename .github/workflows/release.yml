@@ -37,6 +37,15 @@ jobs:
       - name: Install Node dependencies
         run: npm ci --legacy-peer-deps
 
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Maturin
+        run: pip install maturin
+
+      - name: Build Rust core
+        run: npm run build:rust:release
+
       - name: Build renderer + electron
         run: npm run build
 

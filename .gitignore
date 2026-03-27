@@ -28,5 +28,12 @@ desktop.ini
 *.swp
 *.swo
 
-# OpenGravity runtime (stays on host, never committed)
+# Rust
+core/rust_core/target/
+dist_rust/
+Cargo.lock (if you want to keep lock, remove this)
+
+# Audit/Test logs
+*.txt
+*.jsonl
 .opengravity/

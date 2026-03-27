@@ -84,7 +84,12 @@ orchestrator.on_task_update = broadcast_task_update
 # ─── Routes ──────────────────────────────────────────────────────────────────
 @app.get("/health")
 async def health() -> dict:
-    return {"status": "ok", "version": "0.1.0"}
+    from ..security.policy import RUST_AVAILABLE
+    return {
+        "status": "ok", 
+        "version": "0.1.0",
+        "rust_hardened": RUST_AVAILABLE
+    }
 
 
 @app.post("/chat")
@@ -167,6 +172,12 @@ async def get_artifact(name: str) -> dict:
     async with aiofiles.open(path, encoding="utf-8") as f:
         content = await f.read()
     return {"content": content}
+
+
+@app.get("/setup/policy")
+async def get_policy() -> dict:
+    """Return the current active policy (safe portions)."""
+    return policy.policy
 
 
 @app.post("/setup/install-ollama")

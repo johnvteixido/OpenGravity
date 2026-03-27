@@ -23,10 +23,10 @@
 
 - 🤖 **Agent-First Development** — AI agents plan, code, test, and verify autonomously
 - 🔒 **100% Local & Private** — All inference runs on your machine via Ollama
-- 🛡️ **Security Sandbox** — Declarative filesystem + network policy; audit logging
+- 🛡️ **Hardened Security Core** — Rust-powered filesystem + network policy enforcement
 - 📦 **Artifact System** — Auto-generates task lists, implementation plans, walkthroughs
 - 🌐 **Browser Automation** — Agents can control a real browser to test your app
-- 🖥️ **Standalone App** — Native desktop app for Windows, Linux, and macOS
+- 🖥️ **Standalone App** — Native desktop app for Windows (x64), Linux (AppImage), and macOS (Silicon/Intel)
 - 🧠 **Multi-Agent Orchestration** — Parallel agents for complex workflows
 - ⚡ **Ollama Auto-Setup** — Guided installer if Ollama isn't detected
 - 🦞 **NemoClaw & OpenClaw Integration** — Seamlessly connect with NVIDIA NemoClaw and OpenClaw for massive-scale agent coordination and specialized workflow executions.
