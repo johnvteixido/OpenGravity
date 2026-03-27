@@ -63,9 +63,9 @@
     "cross-env": "^7.0.3",
     "electron": "^41.0.4",
     "electron-builder": "^26.8.1",
-    "eslint": "^8.57.1",
-    "eslint-plugin-react-hooks": "^4.6.2",
-    "eslint-plugin-react-refresh": "^0.4.26",
+    "eslint": "^9.10.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.12",
     "prettier": "^3.3.0",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
@@ -144,6 +144,13 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true
-    }
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "johnvteixido",
+        "repo": "OpenGravity"
+      }
+    ]
   }
 }

@@ -35,7 +35,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install Node dependencies
-        run: npm install
+        run: npm ci --legacy-peer-deps
 
       - name: Build renderer + electron
         run: npm run build
@@ -47,7 +47,11 @@ jobs:
 
       - name: Upload release artifacts
         uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
         with:
+          draft: false
+          prerelease: false
+          generate_release_notes: true
           files: |
             dist/*.exe
             dist/*.dmg

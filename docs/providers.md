@@ -24,4 +24,17 @@ LM Studio provides an OpenAI-compatible local server.
 While OpenGravity strongly advocates for local execution, you can configure it to hit cloud APIs if you require `gpt-4o` or `claude-3-5-sonnet`.
 
 - **Warning:** This breaks the offline-only privacy model.
-- **Credentials:** Your API keys are saved locally in `~/.opengravity/credentials.json`. They are NEVER passed to the agent sandbox environment.
+### 4. NVIDIA NemoClaw (Advanced Agent-First)
+
+OpenGravity integrates with **NVIDIA NemoClaw** for high-performance agentic orchestration. 
+
+- **Focus:** Massive multi-agent workflows and complex task planning.
+- **Privacy:** Keeps reasoning local while leveraging NVIDIA's specialized agent logic.
+
+### 5. OpenClaw (Community-Driven Integration)
+
+**OpenClaw** is the community-driven bridge for OpenGravity, providing additional tool-calling capabilities and specialized model support.
+
+- **Status:** Integrated natively via the OpenGravity Agent Server.
+- **Workflow:** Enables "claw-back" error correction and advanced self-healing for agent tasks.
+

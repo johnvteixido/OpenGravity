@@ -14,7 +14,10 @@ DEFAULT_POLICY = {
         "deny": ["~/.ssh", "~/.aws", "~/.gnupg", "~/.config/gcloud"],
     },
     "network": {
-        "allow": ["localhost", "127.0.0.1", "ollama.local"],
+        "allow": [
+            "localhost", "127.0.0.1", "ollama.local", 
+            "nemoclaw.local", "openclaw.io"
+        ],
         "deny": [],
     },
     "shell": {

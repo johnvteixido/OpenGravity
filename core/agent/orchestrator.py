@@ -8,7 +8,7 @@ from collections.abc import AsyncGenerator, Callable, Coroutine
 from pathlib import Path
 from typing import Any
 
-from ..llm.adapter import OllamaAdapter
+from ..llm.providers import ProviderFactory
 from ..security.audit import AuditLogger
 from ..security.policy import PolicyEngine
 
@@ -66,7 +66,7 @@ class AgentOrchestrator:
         self.config_dir = config_dir
         self.audit = audit
         self.policy = policy
-        self.llm = OllamaAdapter(base_url=ollama_url)
+        self.ollama_url = ollama_url
         self.tasks: list[TaskItem] = []
         self.conversation_history: list[dict] = []
 
@@ -125,7 +125,12 @@ class AgentOrchestrator:
 
         try:
             full_response = ""
-            async for delta in self.llm.stream_chat(
+            provider = ProviderFactory.get_provider(
+                model=model, 
+                config={"ollama_url": self.ollama_url}
+            )
+            
+            async for delta in provider.stream_chat(
                 model=model,
                 messages=self.conversation_history,
                 system_prompt=system,
@@ -139,6 +144,12 @@ class AgentOrchestrator:
             await self.audit.log("chat", {"role": "assistant", "length": len(full_response)})
 
         except Exception as e:
+            # 🦞 OpenClaw "Claw-Back" Self-Healing Placeholder
+            if "tool_error" in str(e).lower():
+                await self.audit.log("claw_back", {"error": str(e), "action": "attempt_self_repair"})
+                yield f"\n[Self-Healing] Error detected: {e}. Attempting automated recovery...\n"
+                # Simulated recovery: in real implementation, this would trigger a re-plan.
+            
             error_msg = f"Agent error: {e}"
             yield error_msg
             await self._update_task(task, status="Error", active=False)

@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-      - run: npm install
+      - run: npm ci --legacy-peer-deps
       - run: npm run build:renderer
       - run: npm run lint
       - run: npm run typecheck
@@ -47,7 +47,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - run: npm install
+          cache: 'npm'
+      - run: npm ci --legacy-peer-deps
       - name: npm audit
         run: npm audit --audit-level=high
       - uses: actions/setup-python@v5
@@ -56,4 +57,4 @@ jobs:
       - name: pip-audit
         run: |
           pip install pip-audit
-          cd core && pip-audit -r <(pip install . --dry-run 2>&1 | grep "^Requirement" | sed 's/Requirement already satisfied: //;s/ .*//') || true
+          cd core && pip-audit . --local --skip-pkg venv
