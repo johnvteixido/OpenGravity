@@ -102,7 +102,8 @@ class PolicyEngine:
             try:
                 # Handle special hostnames used in the app
                 resolved_host = host
-                if host == "ollama.local": resolved_host = "localhost"
+                if host == "ollama.local":
+                    resolved_host = "localhost"
                 
                 self.rust.check_network(resolved_host, port, allowed)
                 return

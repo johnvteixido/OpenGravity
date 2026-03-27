@@ -11,7 +11,7 @@ By default, the agent operates in an effectively air-gapped environment. Egress 
 
 ## 2. Filesystem Boundary (Canonicalized)
 
-The agent is strictly restricted to reading and writing within the active workspace. To prevent directory traversal attacks, the Rust core uses `std::fs::canonicalize` on every path request before comparing it against the policy. 
+The agent is strictly restricted to reading and writing within the active workspace. To prevent directory traversal attacks, the Rust core uses `std::fs::canonicalize` on every path request before comparing it against the policy.
 
 - **Workspace Containment:** Escaping the workspace via symlinks or `../` shortcuts is blocked at the binary level.
 - **Deny Zones:** Sensitive directories like `~/.ssh` or `~/.aws` are globally blocked.

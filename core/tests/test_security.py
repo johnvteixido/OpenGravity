@@ -1,6 +1,7 @@
 import pytest
-from pathlib import Path
+
 from security.policy import PolicyEngine, PolicyViolation
+
 
 def test_rust_fs_traversal(tmp_path):
     # Setup

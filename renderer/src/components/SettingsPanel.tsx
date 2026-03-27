@@ -10,13 +10,28 @@ const RECOMMENDED_MODELS = [
   'phi3',
 ];
 
+interface SecurityPolicy {
+  filesystem: {
+    allow: string[];
+    deny: string[];
+  };
+  network: {
+    allow: string[];
+    deny: string[];
+  };
+  shell: {
+    allow_commands: string[];
+    deny_patterns: string[];
+  };
+}
+
 export default function SettingsPanel() {
   const { selectedModel, setSelectedModel, availableModels } = useOllamaStore();
   const [ollamaUrl, setOllamaUrl] = useState('http://127.0.0.1:11434');
   const [customModel, setCustomModel] = useState('');
   const [saved, setSaved] = useState(false);
   const [rustHardened, setRustHardened] = useState<boolean | null>(null);
-  const [policy, setPolicy] = useState<any>(null);
+  const [policy, setPolicy] = useState<SecurityPolicy | null>(null);
 
   useEffect(() => {
     // Fetch security status
@@ -109,7 +124,14 @@ export default function SettingsPanel() {
 
         {/* Security */}
         <div className="settings-section">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: 12,
+            }}
+          >
             <h2 style={{ margin: 0 }}>🛡️ Security</h2>
             <div
               style={{
@@ -141,28 +163,40 @@ export default function SettingsPanel() {
               this machine.
             </p>
             {rustHardened && (
-               <p style={{ marginBottom: 8, color: 'var(--text-primary)' }}>
-                🚀 <strong>Rust security core enabled.</strong> Hardware-accelerated filesystem and network guards are active.
-               </p>
+              <p style={{ marginBottom: 8, color: 'var(--text-primary)' }}>
+                🚀 <strong>Rust security core enabled.</strong> Hardware-accelerated filesystem and
+                network guards are active.
+              </p>
             )}
             <p style={{ marginBottom: 8 }}>
               Agent sandbox policy controls what files and network hosts the agent can access. Edit{' '}
               <code>~/.opengravity/policy.json</code> to configure.
             </p>
-            
+
             {policy && (
               <div style={{ marginTop: 12 }}>
-                <label style={{ fontSize: 11, color: 'var(--text-tertiary)', fontWeight: 600, textTransform: 'uppercase' }}>Active Policy View</label>
-                <pre style={{
-                   marginTop: 4,
-                   background: 'var(--bg-main)',
-                   padding: 12,
-                   borderRadius: 6,
-                   fontSize: 11,
-                   overflowX: 'auto',
-                   border: '1px solid var(--border)',
-                   color: 'var(--text-secondary)'
-                }}>
+                <label
+                  style={{
+                    fontSize: 11,
+                    color: 'var(--text-tertiary)',
+                    fontWeight: 600,
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  Active Policy View
+                </label>
+                <pre
+                  style={{
+                    marginTop: 4,
+                    background: 'var(--bg-main)',
+                    padding: 12,
+                    borderRadius: 6,
+                    fontSize: 11,
+                    overflowX: 'auto',
+                    border: '1px solid var(--border)',
+                    color: 'var(--text-secondary)',
+                  }}
+                >
                   {JSON.stringify(policy, null, 2)}
                 </pre>
               </div>
@@ -199,7 +233,11 @@ export default function SettingsPanel() {
           </div>
         </div>
 
-        <button className="btn btn-primary" onClick={handleSave} style={{ minWidth: 120, marginBottom: 20 }}>
+        <button
+          className="btn btn-primary"
+          onClick={handleSave}
+          style={{ minWidth: 120, marginBottom: 20 }}
+        >
           {saved ? '✓ Saved' : 'Save Changes'}
         </button>
       </div>
