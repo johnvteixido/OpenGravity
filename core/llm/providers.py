@@ -71,7 +71,7 @@ class OpenClawProvider(BaseProvider):
         messages: list[dict],
         system_prompt: str | None = None,
     ) -> AsyncGenerator[str, None]:
-        yield f"[[OpenClaw context window optimized]]\n"
+        yield "[[OpenClaw context window optimized]]\n"
         yield "OpenClaw: Tool-calling self-correction enabled."
 
 
