@@ -28,52 +28,51 @@ impl RustPolicyEngine {
         }
     }
 
-    /// Robust filesystem guard using canonicalize.
+    /// Robust filesystem guard with lexical path normalization.
     pub fn check_filesystem(&self, path: String, workspace: String, denied_zones: Vec<String>) -> PyResult<()> {
         let p = PathBuf::from(&path);
-        
-        // Canonicalize the target path if it exists, otherwise just get absolute
-        let resolved_p = if p.exists() {
-            p.canonicalize().unwrap_or_else(|_| p.to_path_buf())
-        } else {
-            p
-        };
-
-        // Resolve workspace
         let ws = PathBuf::from(&workspace);
-        let resolved_ws = if ws.exists() {
-            ws.canonicalize().unwrap_or_else(|_| ws.to_path_buf())
-        } else {
-            ws
-        };
 
-        let resolved_p_str = resolved_p.to_string_lossy().to_string();
-        let resolved_ws_str = resolved_ws.to_string_lossy().to_string();
+        fn normalize_path(path: &Path) -> PathBuf {
+            let mut components = Vec::new();
+            for component in path.components() {
+                match component {
+                    std::path::Component::CurDir => {}
+                    std::path::Component::ParentDir => {
+                        components.pop();
+                    }
+                    c => components.push(c),
+                }
+            }
+            components.iter().collect()
+        }
 
-        // 1. Deny zones check (prefix matches)
+        let normalized_p = normalize_path(&p);
+        let normalized_ws = normalize_path(&ws);
+
+        let normalized_p_str = normalized_p.to_string_lossy().to_string();
+        let normalized_ws_str = normalized_ws.to_string_lossy().to_string();
+
+        // 1. Deny zones check (lexical comparison)
         for zone in denied_zones {
             let zone_p = PathBuf::from(&zone);
-            let resolved_zone = if zone_p.exists() {
-                zone_p.canonicalize().unwrap_or_else(|_| zone_p.to_path_buf())
-            } else {
-                zone_p
-            };
-            let resolved_zone_str = resolved_zone.to_string_lossy().to_string();
+            let normalized_zone = normalize_path(&zone_p);
+            let normalized_zone_str = normalized_zone.to_string_lossy().to_string();
             
-            if resolved_p_str.starts_with(&resolved_zone_str) {
+            if normalized_p_str.starts_with(&normalized_zone_str) {
                 return Err(PyRuntimeError::new_err(format!(
                     "[RUST_FS_DENY] Access to sensitive zone blocked: {}", 
-                    resolved_p_str
+                    normalized_p_str
                 )));
             }
         }
 
-        // 2. Workspace containment check
+        // 2. Workspace containment check (lexical comparison)
         if !workspace.is_empty() && workspace != "$WORKSPACE" {
-            if !resolved_p_str.starts_with(&resolved_ws_str) {
+            if !normalized_p.starts_with(&normalized_ws) {
                 return Err(PyRuntimeError::new_err(format!(
                     "[RUST_FS_BOUNDS] Path {} is outside the allowed workspace: {}", 
-                    resolved_p_str, resolved_ws_str
+                    normalized_p_str, normalized_ws_str
                 )));
             }
         }
