@@ -91,7 +91,7 @@ class PolicyEngine:
             if not str(resolved).startswith(str(ws_resolved)):
                 allowed = self.policy.get("filesystem", {}).get("allow", ["$WORKSPACE"])
                 if "$WORKSPACE" in allowed and len(allowed) == 1:
-                    raise PolicyViolation(f"Path '{path}' is outside workspace '{workspace}'")
+                    raise PolicyViolation(f"Path {resolved} is outside the allowed workspace: {ws_resolved}")
 
     def check_network(self, host: str, port: int | None = None) -> None:
         """Raise PolicyViolation if the host/port is not allowed."""
@@ -111,8 +111,16 @@ class PolicyEngine:
                 raise PolicyViolation(str(e))
 
         # Fallback
-        if host not in allowed and not host.startswith("127."):
-            raise PolicyViolation(f"Network access to '{host}' blocked by policy.")
+        if host == "localhost" or host == "127.0.0.1" or host.startswith("127."):
+            return
+
+        if host not in allowed:
+            raise PolicyViolation(f"[RUST_NET_HOST] Network access to '{host}' is blocked by policy")
+
+        if port is not None:
+            blocked_ports = [22, 23, 25, 110, 143, 3306, 5432, 27017]
+            if port in blocked_ports:
+                raise PolicyViolation(f"[RUST_NET_PORT] Access to sensitive port {port} on {host} is restricted")
 
     def check_shell_command(self, command: str) -> None:
         """Raise PolicyViolation if the command or pattern is denied."""
@@ -130,8 +138,8 @@ class PolicyEngine:
         # Fallback
         for pattern in deny_patterns:
             if pattern.lower() in command.lower():
-                raise PolicyViolation(f"Shell command blocked by policy: '{pattern}'")
+                raise PolicyViolation(f"[RUST_SHELL_PATTERN] Command blocked by restricted pattern: '{pattern}'")
         
         first_token = command.split()[0].lower() if command.strip() else ""
         if allow_commands and first_token and first_token not in [c.lower() for c in allow_commands]:
-            raise PolicyViolation(f"Command '{first_token}' not in allow list.")
+            raise PolicyViolation(f"[RUST_SHELL_FORBIDDEN] Command '{first_token}' is not in the enforced safe list")

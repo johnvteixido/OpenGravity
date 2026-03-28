@@ -38,8 +38,13 @@ jobs:
           cd core
           python -m pip install --upgrade pip setuptools wheel
           pip install ".[dev]"
-      - name: Build Rust core
-        run: npm run build:rust:release
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci --legacy-peer-deps
+      - name: Build and install Rust core
+        run: npm run build:rust
       - name: Lint with Ruff
         run: cd core && python -m ruff check .
       - name: Run tests

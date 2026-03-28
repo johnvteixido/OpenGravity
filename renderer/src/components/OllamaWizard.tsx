@@ -51,7 +51,7 @@ export default function OllamaWizard({ onComplete }: Props) {
       setChecking(false);
     }
     detect();
-  }, [setAvailableModels, setSelectedModel]);
+  }, [setAvailableModels, setSelectedModel, setStep, setChecking]);
 
   async function handleInstallOllama() {
     setInstalling(true);
