@@ -1,6 +1,6 @@
 {
   "name": "opengravity",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "description": "Agent-first AI development, local and free. A standalone alternative to Google Antigravity.",
   "main": "dist/app/main.js",
