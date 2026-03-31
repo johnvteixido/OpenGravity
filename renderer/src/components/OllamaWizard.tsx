@@ -24,7 +24,9 @@ export default function OllamaWizard({ onComplete }: Props) {
   const [installing, setInstalling] = useState(false);
   const [pulling, setPulling] = useState(false);
   const [pullProgress, setPullProgress] = useState('');
-  const { selectedModel, setSelectedModel, setAvailableModels } = useOllamaStore();
+  const selectedModel = useOllamaStore((state) => state.selectedModel);
+  const setSelectedModel = useOllamaStore((state) => state.setSelectedModel);
+  const setAvailableModels = useOllamaStore((state) => state.setAvailableModels);
 
   // Check Ollama on mount
   useEffect(() => {
