@@ -1,66 +1,26 @@
 #!/usr/bin/env bash
-# OpenGravity — Ollama installer for Linux and macOS
-# This script is run by the OpenGravity app when Ollama is not detected.
+# OpenGravity — Ollama Installer for Linux/macOS
+# This script is invoked by the OpenGravity agent server when Ollama is not detected.
+# It uses the official Ollama install script.
 
-set -euo pipefail
+set -e
 
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "  OpenGravity — Installing Ollama"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "[OpenGravity] Installing Ollama..."
+curl -fsSL https://ollama.com/install.sh | sh
 
-if command -v ollama &>/dev/null; then
-  echo "✓ Ollama is already installed: $(ollama --version)"
-  exit 0
-fi
-
-OS="$(uname -s)"
-echo "→ Detected OS: $OS"
-
-if [[ "$OS" == "Darwin" ]]; then
-  # macOS — check for Homebrew first
-  if command -v brew &>/dev/null; then
-    echo "→ Installing Ollama via Homebrew…"
-    brew install ollama
-  else
-    echo "→ Downloading Ollama for macOS…"
-    TMPDIR=$(mktemp -d)
-    curl -fsSL "https://ollama.com/download/Ollama-darwin.zip" -o "$TMPDIR/ollama.zip"
-    unzip -q "$TMPDIR/ollama.zip" -d "$TMPDIR"
-    echo "→ Moving Ollama.app to /Applications…"
-    cp -r "$TMPDIR/Ollama.app" /Applications/Ollama.app
-    open /Applications/Ollama.app
-    rm -rf "$TMPDIR"
-  fi
-elif [[ "$OS" == "Linux" ]]; then
-  echo "→ Installing Ollama via official installer…"
-  curl -fsSL https://ollama.com/install.sh | sh
+echo "[OpenGravity] Starting Ollama service..."
+if command -v systemctl &>/dev/null; then
+    systemctl enable --now ollama 2>/dev/null || true
 else
-  echo "✗ Unsupported OS: $OS"
-  echo "  Please install Ollama manually from https://ollama.com/download"
-  exit 1
+    nohup ollama serve &>/tmp/ollama.log &
+    sleep 3
 fi
 
-echo ""
-echo "✓ Ollama installed successfully!"
-echo "  Starting Ollama service…"
-
-if [[ "$OS" == "Linux" ]]; then
-  if command -v systemctl &>/dev/null; then
-    systemctl --user enable --now ollama.service 2>/dev/null || true
-  fi
-fi
-
-# Give it a moment to start
-sleep 2
-
-if curl -sf http://127.0.0.1:11434/api/tags &>/dev/null; then
-  echo "✓ Ollama is running at http://127.0.0.1:11434"
+# Verify
+if curl -sf http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then
+    echo "[OpenGravity] Ollama is running on port 11434."
+    exit 0
 else
-  echo "→ Starting Ollama in background…"
-  ollama serve &>/dev/null &
-  sleep 3
+    echo "[OpenGravity] Ollama installed. You may need to start it manually: ollama serve"
+    exit 1
 fi
-
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "  Setup complete! Return to OpenGravity."
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

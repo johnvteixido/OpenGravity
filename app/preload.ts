@@ -6,10 +6,10 @@ import { contextBridge, ipcRenderer } from 'electron';
  * so this is the ONLY way it can communicate with the main process.
  */
 contextBridge.exposeInMainWorld('electronAPI', {
-  // Agent server URL
+  // Agent server URL (e.g. http://127.0.0.1:7432)
   getAgentUrl: (): Promise<string> => ipcRenderer.invoke('agent:url'),
 
-  // Config directory path
+  // Config directory path (~/.opengravity)
   getConfigDir: (): Promise<string> => ipcRenderer.invoke('config:dir'),
 
   // Open a native folder picker dialog
@@ -20,6 +20,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   // Check if Ollama is running
   checkOllama: (): Promise<{ running: boolean }> => ipcRenderer.invoke('ollama:check'),
+
+  // Get the agent server startup status
+  agentStatus: (): Promise<{ ok: boolean; error: string | null }> =>
+    ipcRenderer.invoke('agent:status'),
 
   // Platform info
   platform: process.platform,

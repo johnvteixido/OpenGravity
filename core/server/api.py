@@ -45,7 +45,14 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "app://.", "file://"],
+    allow_origins=[
+        "http://localhost:5173",   # Vite dev server
+        "http://127.0.0.1:5173",
+        "app://.",                  # Electron production (macOS/Linux)
+        "file://",                  # Electron production (Windows)
+        "null",                     # Electron sandbox origin
+    ],
+    allow_origin_regex=r"file://.*",  # Allow any file:// origin (Electron)
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -57,7 +57,10 @@ class PolicyEngine:
         # Write default policy
         with open(self.policy_path, "w", encoding="utf-8") as f:
             json.dump(DEFAULT_POLICY, f, indent=2)
-        os.chmod(self.policy_path, 0o600)
+        try:
+            os.chmod(self.policy_path, 0o600)
+        except OSError:
+            pass  # Windows does not support POSIX chmod
         return DEFAULT_POLICY.copy()
 
     def check_filesystem(self, path: Path, workspace: Path | None) -> None:

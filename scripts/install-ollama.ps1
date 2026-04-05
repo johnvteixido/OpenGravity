@@ -1,50 +1,30 @@
-# OpenGravity — Ollama installer for Windows (PowerShell)
-# This script is run by the OpenGravity app when Ollama is not detected.
+# OpenGravity — Ollama Installer for Windows
+# This script is invoked by the OpenGravity agent server when Ollama is not detected.
+# It downloads and runs the official Ollama installer for Windows.
 
-param()
 $ErrorActionPreference = "Stop"
 
-Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Cyan
-Write-Host "  OpenGravity — Installing Ollama" -ForegroundColor Cyan
-Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Cyan
+$OllamaInstallerUrl = "https://ollama.com/download/OllamaSetup.exe"
+$InstallerPath = Join-Path $env:TEMP "OllamaSetup.exe"
 
-# Check if already installed
-if (Get-Command ollama -ErrorAction SilentlyContinue) {
-  $version = & ollama --version
-  Write-Host "✓ Ollama already installed: $version" -ForegroundColor Green
-  exit 0
+Write-Host "[OpenGravity] Downloading Ollama installer..."
+Try {
+    Invoke-WebRequest -Uri $OllamaInstallerUrl -OutFile $InstallerPath -UseBasicParsing
+    Write-Host "[OpenGravity] Download complete. Running installer..."
+    Start-Process -FilePath $InstallerPath -ArgumentList "/SILENT" -Wait
+    Write-Host "[OpenGravity] Ollama installed successfully."
+    # Wait a moment for the service to start
+    Start-Sleep -Seconds 3
+    # Verify
+    $result = Invoke-WebRequest -Uri "http://127.0.0.1:11434/api/tags" -UseBasicParsing -TimeoutSec 5 -ErrorAction SilentlyContinue
+    if ($result.StatusCode -eq 200) {
+        Write-Host "[OpenGravity] Ollama is running on port 11434."
+        exit 0
+    } else {
+        Write-Host "[OpenGravity] Ollama installed but not yet responding. Please start it manually."
+        exit 1
+    }
+} Catch {
+    Write-Error "[OpenGravity] Failed to install Ollama: $_"
+    exit 1
 }
-
-# Download Ollama installer
-$installerUrl = "https://ollama.com/download/OllamaSetup.exe"
-$tmpDir = [System.IO.Path]::GetTempPath()
-$installerPath = Join-Path $tmpDir "OllamaSetup.exe"
-
-Write-Host "→ Downloading Ollama installer…" -ForegroundColor Yellow
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-Invoke-WebRequest -Uri $installerUrl -OutFile $installerPath -UseBasicParsing
-
-Write-Host "→ Running installer (silent)…" -ForegroundColor Yellow
-Start-Process -FilePath $installerPath -ArgumentList "/S" -Wait -NoNewWindow
-
-# Wait for Ollama to start
-Start-Sleep -Seconds 5
-
-# Verify
-try {
-  $response = Invoke-WebRequest -Uri "http://127.0.0.1:11434/api/tags" -TimeoutSec 5 -UseBasicParsing
-  if ($response.StatusCode -eq 200) {
-    Write-Host "✓ Ollama is running at http://127.0.0.1:11434" -ForegroundColor Green
-  }
-} catch {
-  Write-Host "→ Starting Ollama…" -ForegroundColor Yellow
-  Start-Process "ollama" -ArgumentList "serve" -WindowStyle Hidden
-  Start-Sleep -Seconds 3
-}
-
-# Cleanup
-Remove-Item $installerPath -Force -ErrorAction SilentlyContinue
-
-Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Cyan
-Write-Host "  Setup complete! Return to OpenGravity." -ForegroundColor Cyan
-Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Cyan
